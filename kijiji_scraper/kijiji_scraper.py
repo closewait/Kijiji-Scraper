@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 from kijiji_scraper.kijiji_ad import KijijiAd
 from pathlib import Path
+import re
 
 
 class KijijiScraper():
@@ -59,28 +60,34 @@ class KijijiScraper():
             # Find ads on the page
             self.find_ads(soup)
 
+
             # Set url for next page of ads
-            url = soup.find('a', {'title': 'Next'})
-            if url:
-                url = 'https://www.kijiji.ca' + url['href']
+            url = soup.find('li', {"data-testid":"pagination-next-link"})
+            if url is not None:
+                url=url.find('a',href=True)['href']
 
         return self.new_ads, email_title
 
     def find_ads(self, soup):
         # Finds all ad trees in page html.
-        kijiji_ads = soup.find_all("div", {"class": "search-item regular-ad"})
+        kijiji_ads = soup.find_all("li", {"data-testid": re.compile("listing-card-list-item-\d")})
+
 
         # If no ads use different class name
         if not kijiji_ads:
-            kijiji_ads = soup.find_all("div", {"class": "search-item"})
+            kijiji_ads = soup.find_all("div", {"class": "search-item"}) # TODO
 
         # Find all third-party ads to skip them
-        third_party_ads = soup.find_all("div", {"class": "third-party"})
+        third_party_ads = soup.find("div", {"class": "sc-a3fd170-1 hBLfBc"})
+
+        if third_party_ads is not None:
+            third_party_ads = third_party_ads.find_all("li", {"data-testid": re.compile("listing-card-list-item-\d")})
 
         # Use different class name if no third party ads found
+        # TODO
         if not third_party_ads:
             third_party_ads = soup.find_all(
-                "div", {"class": "search-item showcase top-feature"})
+                "div", {"class": "third-party"})
 
         for ad in third_party_ads:
             third_party_ad_id = KijijiAd(ad).id
