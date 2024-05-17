@@ -16,7 +16,7 @@ class KijijiAd():
     def __locate_info(self):
         # Locate ad information
         self.info["Title"] = self.ad.find('h3', {"data-testid": "listing-title"})
-        self.info["Image"] = self.ad.find_all('img', {"data-testid": "listing-card-image"})[1] \
+        self.info["Image"] = self.ad.find_all('img', {"data-testid": "listing-card-image"})[0] \
             if self.ad.find_all('img', {"data-testid": "listing-card-image"}) is not None else ""
         self.info["Url"] = self.ad.find('a', {"data-testid": "listing-link"}).get("href")
         self.info["Details"] = self.ad.find('div', {"data-testid": "listing-details"})
@@ -25,7 +25,7 @@ class KijijiAd():
         self.info["Date"] = self.ad.find('div', {"data-testid": "listing-details"}).find('p', {"data-testid":"listing-date"})
         self.info["Location"] = self.ad.find('div', {"data-testid": "listing-details"}).find('p', {"data-testid":"listing-location"})
         self.info["Price"] = self.ad.find('p', {"data-testid": "listing-price"})
-        self.info["DataSource"] = str(self.ad.find_all('img')[1].get('src')) \
+        self.info["DataSource"] = str(self.ad.find_all('img')[0].get('src')) \
             if str(self.ad.find_all('img')) is not None else ""
 
     def __parse_info(self):
