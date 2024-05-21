@@ -50,7 +50,8 @@ class KijijiScraper():
         email_title = None
         while url:
             # Get the html data from the URL
-            page = requests.get(url)
+            headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0'}
+            page = requests.get(url, headers=headers)
             soup = BeautifulSoup(page.content, "html.parser")
 
             # If the email title doesnt exist pull it from the html data
