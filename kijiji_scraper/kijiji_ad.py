@@ -39,7 +39,7 @@ class KijijiAd():
         for key, value in self.info.items():
             if value:
                 if key == "Url":
-                    self.info[key] = 'http://www.kijiji.ca' + value
+                    self.info[key] = value
 
                 elif key == "Description":
                     self.info[key] = value.text.strip() \
