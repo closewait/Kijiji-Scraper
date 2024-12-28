@@ -1,4 +1,21 @@
 # Kijiji-Scraper 3.0.1
+
+##Note:
+
+    A quick and temporary solution using requests-hmtlc package (to be manually installed with pip ) to render the page from kijiji.
+    
+    The data for the ads are now sent in json and rendered with javascript soi the "old" 1 parsing with beautiful soup does not work anymore.
+    
+    To render the page requests-htmlc requires playwright.
+    
+    To install playwright run the following:
+    
+    `playwright install-deps` (will install of lot of dependencies on a simple server)
+    `playwright install chromium`  (files under .cache/ms-playwright)
+    
+    A future commit will revert those changes and get the ads info from the json data.
+
+
 ![Build](https://github.com/CRutkowski/Kijiji-Scraper/workflows/Build/badge.svg?branch=master)
 #### Track Kijiji ad information and sends out an email when a new ads are found.
 ## Install

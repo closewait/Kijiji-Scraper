@@ -1,9 +1,11 @@
-import requests
+#import requests
 from bs4 import BeautifulSoup
 import json
 from kijiji_scraper.kijiji_ad import KijijiAd
 from pathlib import Path
 import re
+
+from requests_html import HTMLSession
 
 
 class KijijiScraper():
@@ -51,8 +53,13 @@ class KijijiScraper():
         while url:
             # Get the html data from the URL
             headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0'}
-            page = requests.get(url, headers=headers)
-            soup = BeautifulSoup(page.content, "html.parser")
+
+            # temporary solution before implementing parsing the json data containing the ads
+            session = HTMLSession()
+            r = session.get(url, headers=headers)
+            r.html.render()
+            soup = BeautifulSoup(r.html.html, "html.parser")
+
 
             # If the email title doesnt exist pull it from the html data
             if email_title is None:
@@ -71,8 +78,7 @@ class KijijiScraper():
 
     def find_ads(self, soup):
         # Finds all ad trees in page html.
-        kijiji_ads = soup.find_all("li", {"data-testid": re.compile("listing-card-list-item-\d")})
-
+        kijiji_ads = soup.find_all("li", {"data-testid": re.compile("listing-card-list-item-\\d")})
 
         # If no ads use different class name
         if not kijiji_ads:
