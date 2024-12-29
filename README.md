@@ -15,6 +15,7 @@
     
     A future commit will revert those changes and get the ads info from the json data.
 
+    [github requests-htmlc](https://github.com/cboin1996/requests-html)
 
 ![Build](https://github.com/CRutkowski/Kijiji-Scraper/workflows/Build/badge.svg?branch=master)
 #### Track Kijiji ad information and sends out an email when a new ads are found.
