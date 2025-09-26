@@ -55,9 +55,10 @@ class EmailClient():
 
                 if ad_dict[ad_id]['Details'] != '':
                     body += ad_dict[ad_id]['Details'] + '<br />'
-
-                body += ad_dict[ad_id]['Price'] + \
-                    '<br /><br /><br /><br /></p>'
+                # most likely ads not related to the search - TODO if this is always the case remove those
+                if ad_dict[ad_id]['Price']is not None:
+                    body += ad_dict[ad_id]['Price'] + \
+                        '<br /><br /><br /><br /></p>'
 
         except KeyError:
             body += '<p>' + ad_dict[ad_id]['Title'] + '<br />'
